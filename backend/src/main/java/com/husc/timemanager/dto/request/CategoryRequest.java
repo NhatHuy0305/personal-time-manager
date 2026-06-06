@@ -1,0 +1,9 @@
+package com.husc.timemanager.dto.request;
+
+import lombok.Data;
+
+@Data
+public class CategoryRequest {
+    private String name;
+    private String colorCode;
+}

@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  # 1. Dịch vụ Cơ sở dữ liệu MySQL
+  time-manager-db:
+    image: mysql:8.0.45
+    container_name: time_manager_mysql_db
+    restart: always
+    environment:
+      MYSQL_DATABASE: time_manager_db
+      MYSQL_ROOT_PASSWORD: rootpassword
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  # 2. Dịch vụ Backend Spring Boot API
+  backend-service:
+    build: ./backend
+    container_name: time_manager_backend_api
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - time-manager-db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://time-manager-db:3306/time_manager_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=rootpassword
+      # Thêm các biến môi trường khác của bạn ở đây (JWT Secret, Google Client ID, v.v.)
+      # - JWT_SECRET=mySecretKey123
+      # - GOOGLE_CLIENT_ID=your-google-client-id
+
+  # 3. Dịch vụ Frontend ReactJS
+  frontend-service:
+    build: ./frontend
+    container_name: time_manager_frontend_ui
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - backend-service
+
+volumes:
+  mysql_data:

@@ -1,0 +1,12 @@
+### Lấy danh sách công việc (Giống như F5 trình duyệt)
+GET http://localhost:8080/api/tasks
+
+### Thêm một công việc mới
+POST http://localhost:8080/api/tasks
+Content-Type: application/json
+
+{
+  "title": "Học Spring Boot ngày đầu",
+  "description": "Thử tạo Entity, Controller và test API thành công",
+  "completed": false
+}
