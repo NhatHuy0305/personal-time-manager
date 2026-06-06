@@ -12,13 +12,14 @@ import {
   SunIcon,
   MoonIcon,
   ChartBarIcon,
-  UserCircleIcon
+  UserCircleIcon,
+  XMarkIcon
 } from '@heroicons/react/24/outline';
 import { getCategories, createCategory, deleteCategory } from '../api/categoryApi';
 import { useTheme } from '../context/ThemeContext';
 import logoImg from '../assets/logo.png';
 
-const Sidebar = ({ onOpenChangePassword, onOpenProfile }) => {
+const Sidebar = ({ onOpenChangePassword, onOpenProfile, isOpen, onClose }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -99,13 +100,22 @@ const Sidebar = ({ onOpenChangePassword, onOpenProfile }) => {
   };
 
   return (
-    <div className="flex h-screen w-64 flex-col justify-between border-r border-gray-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 py-6 shadow-sm fixed left-0 top-0 z-30 transition-colors">
+    <div className={`flex h-screen w-64 flex-col justify-between border-r border-gray-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 py-6 shadow-sm fixed left-0 top-0 z-50 transition-transform duration-300 lg:translate-x-0 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
       
       <div className="flex-1 flex flex-col overflow-y-auto pr-1">
         {/* Logo & Tên App */}
-        <div className="flex items-center gap-2 px-2 mb-8 text-blue-600 dark:text-blue-500 shrink-0">
-          <img src={logoImg} alt="TimeManager Logo" className="h-8 w-auto object-contain" />
-          <span className="text-xl font-bold text-gray-800 dark:text-white">TimeManager</span>
+        <div className="flex items-center justify-between px-2 mb-8 shrink-0">
+          <div className="flex items-center gap-2 text-blue-600 dark:text-blue-500">
+            <img src={logoImg} alt="TimeManager Logo" className="h-8 w-auto object-contain" />
+            <span className="text-xl font-bold text-gray-800 dark:text-white">TimeManager</span>
+          </div>
+          {/* Nút đóng Sidebar chỉ hiện trên Mobile */}
+          <button 
+            onClick={onClose}
+            className="lg:hidden p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 cursor-pointer"
+          >
+            <XMarkIcon className="w-6 h-6" />
+          </button>
         </div>
 
         {/* Menu Items Chính */}
@@ -120,6 +130,7 @@ const Sidebar = ({ onOpenChangePassword, onOpenProfile }) => {
               <Link
                 key={item.name}
                 to={item.href}
+                onClick={onClose}
                 className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all ${
                   isActive 
                     ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 shadow-sm' 
@@ -190,6 +201,7 @@ const Sidebar = ({ onOpenChangePassword, onOpenProfile }) => {
                 >
                   <Link 
                     to={`/tasks?categoryId=${cat.id}`}
+                    onClick={onClose}
                     className="flex items-center gap-3 truncate flex-1 cursor-pointer"
                   >
                     <span 

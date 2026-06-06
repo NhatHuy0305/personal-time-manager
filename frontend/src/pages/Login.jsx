@@ -4,6 +4,7 @@ import api from '../api/axios';
 import ForgotPasswordModal from '../components/ForgotPasswordModal';
 import { GoogleLogin } from '@react-oauth/google'; 
 import RegisterModal from '../components/RegisterModal';
+import logoImg from '../assets/logo.png';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -79,12 +80,17 @@ const Login = () => {
       </div>
 
       {/* CỘT PHẢI: Form Đăng nhập */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-8 sm:p-12">
-        <div className="w-full max-w-md">
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-4 sm:p-8 lg:p-12">
+        <div className="w-full max-w-md bg-white lg:bg-transparent p-6 sm:p-8 lg:p-0 rounded-3xl shadow-sm lg:shadow-none border border-gray-100 lg:border-none">
           
-          <div className="mb-10 text-center lg:text-left">
-            <h2 className="text-3xl font-bold text-gray-900 mb-2">Chào mừng trở lại! 👋</h2>
-            <p className="text-gray-500">Vui lòng đăng nhập vào tài khoản của bạn.</p>
+          <div className="mb-8 text-center lg:text-left">
+            {/* Logo hiển thị trên mobile */}
+            <div className="flex lg:hidden items-center justify-center gap-2 mb-6">
+                <img src={logoImg} alt="TimeManager Logo" className="h-10 w-auto object-contain" />
+                <span className="text-2xl font-bold text-gray-800">TimeManager</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Chào mừng trở lại! 👋</h2>
+            <p className="text-gray-500 text-sm sm:text-base">Vui lòng đăng nhập vào tài khoản của bạn.</p>
           </div>
 
           <form onSubmit={handleLogin} className="space-y-6">
